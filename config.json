@@ -32,7 +32,7 @@
   "tts": {
     "endpoint": "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize",
     "format": "mp3",
-    "apiKey": ""
+    "ApiKey": "${ApiKey}"
   },
   "site": {
     "title": "Диктанты"

@@ -15,3 +15,6 @@ Thumbs.db
 
 # PowerShell history
 *.pshistory
+
+# Ключ
+config.local.json
