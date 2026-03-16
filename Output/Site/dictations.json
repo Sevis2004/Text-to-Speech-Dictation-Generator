@@ -23,5 +23,10 @@
         "title":  "КОНТРОЛЬНЫЙ ДИКТАНТ ПО ТЕМЕ \"СЛОВООБРАЗОВАНИЕ. ОРФОГРАФИЯ\"",
         "slug":  "control-slovo-orf",
         "audio":  "control-slovo-orf_full.mp3"
+    },
+    {
+        "title":  "Русская зима",
+        "slug":  "Russian-winter",
+        "audio":  "Russian-winter_full.mp3"
     }
 ]

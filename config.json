@@ -1,11 +1,11 @@
 {
   "paths": {
-    "inputFile": "C:\\Users\\sevis\\Downloads\\DictationProject\\input\\DICTATIONS.txt",
-    "overridesFile": "C:\\Users\\sevis\\Downloads\\DictationProject\\input\\overrides.txt",
-    "outputSiteDir": "C:\\Users\\sevis\\Downloads\\DictationProject\\output\\site",
-    "outputTempDir": "C:\\Users\\sevis\\Downloads\\DictationProject\\output\\temp",
-    "outputLogsDir": "C:\\Users\\sevis\\Downloads\\DictationProject\\output\\logs",
-    "indexTemplate": "C:\\Users\\sevis\\Downloads\\DictationProject\\templates\\index.template.html"
+    "inputFile": "input/DICTATIONS.txt",
+    "overridesFile": "input/overrides.txt",
+    "outputSiteDir": "output/site",
+    "outputTempDir": "outputtemp",
+    "outputLogsDir": "output/logs",
+    "indexTemplate": "templates/index.template.html"
   },
   "defaults": {
     "voice": "ermil",
@@ -32,7 +32,7 @@
   "tts": {
     "endpoint": "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize",
     "format": "mp3",
-    "ApiKey": "${ApiKey}"
+    "ApiKey": ""
   },
   "site": {
     "title": "Диктанты"
@@ -42,6 +42,6 @@
     "method": "aws-cli",
     "bucket": "dictation-audio",
     "endpoint": "https://storage.yandexcloud.net",
-    "syncFolder": "C:\\Users\\sevis\\Downloads\\DictationProject\\output\\site"
+    "syncFolder": "output/site"
   }
 }
