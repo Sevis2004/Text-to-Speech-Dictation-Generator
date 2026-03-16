@@ -1,33 +1,58 @@
 ﻿param(
-    [string]$Text
+    [string]$Text,
+    [string]$SplitMode = 'compare'
 )
 
 . "$PSScriptRoot\lib\split.ps1"
 
 cls
 
-Write-Host ""
-Write-Host "=== SENTENCES ===" -ForegroundColor Cyan
-
+$mode = Resolve-SplitMode -SplitMode $SplitMode
 $sentences = Split-Sentences $Text
 
-$i=1
 foreach ($s in $sentences) {
-    Write-Host "$i`t$s"
-    $i++
-}
+    Write-Host ""
+    Write-Host "=== SENTENCE ===" -ForegroundColor Cyan
+    Write-Host $s
 
-Write-Host ""
-Write-Host "=== PHRASES ===" -ForegroundColor Yellow
+    $comparison = Get-PhraseSplitComparison -Sentence $s
+    $legacy = @($comparison.Legacy)
+    $advanced = @($comparison.Advanced)
 
-foreach ($s in $sentences) {
+    if ($mode -eq 'legacy') {
+        Write-Host ""
+        Write-Host "LEGACY:" -ForegroundColor Yellow
+        foreach ($p in $legacy) {
+            Write-Host "→ $p"
+        }
+        continue
+    }
+
+    if ($mode -eq 'advanced') {
+        Write-Host ""
+        Write-Host "ADVANCED:" -ForegroundColor Yellow
+        foreach ($p in $advanced) {
+            Write-Host "→ $p"
+        }
+        continue
+    }
 
     Write-Host ""
-    Write-Host $s -ForegroundColor Green
+    Write-Host "LEGACY:" -ForegroundColor Yellow
+    foreach ($p in $legacy) {
+        Write-Host "→ $p"
+    }
 
-    $phrases = Get-AutoSplitLegacy $s
+    Write-Host ""
+    Write-Host "ADVANCED:" -ForegroundColor Green
+    foreach ($p in $advanced) {
+        Write-Host "→ $p"
+    }
 
-    foreach ($p in $phrases) {
-        Write-Host "   -> $p"
+    $legacyJoined = $legacy -join '|'
+    $advancedJoined = $advanced -join '|'
+    if ($legacyJoined -ne $advancedJoined) {
+        Write-Host ""
+        Write-Host "DIFFERENCE DETECTED" -ForegroundColor Magenta
     }
 }

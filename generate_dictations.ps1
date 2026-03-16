@@ -136,6 +136,17 @@ function Parse-BooleanOrDefault {
     }
 }
 
+
+function Get-SplitModeFromConfig {
+    param($Config)
+
+    if ($null -eq $Config -or -not ($Config.PSObject.Properties.Name -contains 'SplitMode')) {
+        return 'legacy'
+    }
+
+    return (Resolve-SplitMode -SplitMode ([string]$Config.SplitMode))
+}
+
 function Parse-Dictations {
     param(
         [string]$RawText,
@@ -262,7 +273,8 @@ function Build-DictationPlan {
     param(
         $Dictation,
         $Config,
-        [hashtable]$Overrides
+        [hashtable]$Overrides,
+        [string]$SplitMode = 'legacy'
     )
 
     $plan = New-Object System.Collections.Generic.List[object]
@@ -305,7 +317,7 @@ function Build-DictationPlan {
             $plan.Add((New-PlanItemSpeak -Text $sentence -Section 'part2'))
             $plan.Add((New-PlanItemPause -Ms ([int]$part2.beforeSplitMs) -Section 'part2'))
 
-            $splitParts = Get-OverrideOrAutoSplit -Slug $Dictation.Slug -Sentence $sentence -Overrides $Overrides
+            $splitParts = Get-OverrideOrAutoSplit -Slug $Dictation.Slug -Sentence $sentence -Overrides $Overrides -SplitMode $SplitMode
             foreach ($chunk in $splitParts) {
                 $plan.Add((New-PlanItemSpeak -Text $chunk -Section 'part2'))
                 switch (Get-PauseTierPart2 -Text $chunk) {
@@ -600,11 +612,13 @@ function Main {
     $projectRoot = Split-Path -Parent $PSCommandPath
     $configPath = Join-Path $projectRoot 'config.json'
     $config = Load-Config -Path $configPath
+    $splitMode = Get-SplitModeFromConfig -Config $config
 
     Initialize-ProjectFolders -Config $config -ProjectRoot $projectRoot
 
     try {
         Write-Log ("Run mode: " + $script:RunMode)
+        Write-Log ("Split mode: " + $splitMode)
         if ($script:RunMode -eq 'selected') {
             Write-Log ("Selected slugs: " + $script:SelectedSlugsRaw)
         }
@@ -633,7 +647,7 @@ function Main {
             }
 
             Write-Log ("Processing: " + $dictation.Title)
-            $plan = Build-DictationPlan -Dictation $dictation -Config $config -Overrides $overrides
+            $plan = Build-DictationPlan -Dictation $dictation -Config $config -Overrides $overrides -SplitMode $splitMode
             $siteFile = Render-DictationAudio -Dictation $dictation -Plan $plan -Config $config
             Write-Log ("Generated: " + $siteFile)
         }

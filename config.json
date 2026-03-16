@@ -43,5 +43,6 @@
     "bucket": "dictation-audio",
     "endpoint": "https://storage.yandexcloud.net",
     "syncFolder": "output/site"
-  }
+  },
+  "SplitMode": "legacy"
 }
