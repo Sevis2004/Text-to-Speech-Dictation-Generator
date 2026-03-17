@@ -16,19 +16,27 @@
       margin-bottom: 24px;
     }
     .dictation {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .dictation h2 {
-      margin-top: 0;
-      font-size: 20px;
-    }
-    audio {
-      width: 100%;
-      margin-top: 8px;
-    }
+  	border: 1px solid #ddd;
+  	border-radius: 8px;
+  	padding: 12px;
+  	margin-bottom: 12px;
+	}
+
+     .dictation h2 {
+  	margin: 0 0 2px 0;
+  	font-size: 16px;
+  	font-weight: 600;
+	}
+
+      .dictation h3 {
+ 	 margin: 0 0 4px 8px;
+  	font-size: 12px;
+	}
+
+	audio {
+	  width: 100%;
+	  margin-top: 4px;
+	}
   </style>
 </head>
 <body>
@@ -54,7 +62,8 @@
 
         container.innerHTML = items.map((item, index) => `
   		<div class="dictation">
-    	<h2>Диктант № ${index + 1} — ${item.title}</h2>
+    	<h2>${item.title}</h2>
+	<h3>Диктант № ${index + 1}</h3>
     	<audio controls preload="none">
       <source src="${item.audio}" type="audio/mpeg">
      		 Ваш браузер не поддерживает воспроизведение аудио.

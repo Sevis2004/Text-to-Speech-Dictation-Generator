@@ -29,14 +29,18 @@
       "sentenceEndMs": 11500
     }
   },
+  "ApiKey": "",
+
   "tts": {
     "endpoint": "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize",
     "format": "mp3",
-    "ApiKey": ""
+    "apiKey": ""
   },
+
   "site": {
     "title": "Диктанты"
   },
+
   "publish": {
     "enabled": true,
     "method": "aws-cli",
@@ -44,5 +48,10 @@
     "endpoint": "https://storage.yandexcloud.net",
     "syncFolder": "output/site"
   },
+
+  "tools": {
+	"curlPath": "curl.exe"
+   },
+
   "SplitMode": "legacy"
 }

@@ -83,6 +83,23 @@ function Load-Config {
                 }
             }
         }
+
+        if ($localConfig.PSObject.Properties.Name -contains 'tools') {
+
+            if (-not ($config.PSObject.Properties.Name -contains 'tools')) {
+                $config | Add-Member -NotePropertyName tools -NotePropertyValue ([pscustomobject]@{})
+            }
+
+            foreach ($prop in $localConfig.tools.PSObject.Properties.Name) {
+                if ($config.tools.PSObject.Properties.Name -contains $prop) {
+                    $config.tools.$prop = $localConfig.tools.$prop
+                }
+                else {
+                    $config.tools | Add-Member -NotePropertyName $prop -NotePropertyValue $localConfig.tools.$prop
+                }
+            }
+        }
+
     }
 
     return $config
@@ -422,13 +439,17 @@ function Invoke-TtsToWav {
     $tmpMp3 = [System.IO.Path]::ChangeExtension($OutFile, '.tmp.mp3')
     if (Test-Path $tmpMp3) { Remove-Item $tmpMp3 -Force -ErrorAction SilentlyContinue }
 
-    & curl.exe --http1.1 -sS `
+    $tmpText = [System.IO.Path]::ChangeExtension($OutFile, '.tmp.txt')
+    $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    [System.IO.File]::WriteAllText($tmpText, [string]$Text, $utf8NoBom)
+    
+    & $config.tools.curlPath --http1.1 -sS `
       --retry 4 --retry-all-errors --retry-delay 2 `
       --connect-timeout 20 --max-time 120 `
       -X POST $Config.tts.endpoint `
       -H "Authorization: Api-Key $apiKey" `
       -H "Content-Type: application/x-www-form-urlencoded" `
-      --data-urlencode "text=$Text" `
+      --data-urlencode "text@$tmpText"`
       --data-urlencode "lang=ru-RU" `
       --data-urlencode "voice=$Voice" `
       --data-urlencode ("speed=" + [string]::Format([System.Globalization.CultureInfo]::InvariantCulture, '{0:0.##}', $Speed)) `
@@ -446,6 +467,7 @@ function Invoke-TtsToWav {
 
     Copy-Item -Path $OutFile -Destination $cacheFile
     Remove-Item $tmpMp3 -Force -ErrorAction SilentlyContinue
+    Remove-Item $tmpText -Force -ErrorAction SilentlyContinue
 }
 
 function Get-SilenceCacheFile {
