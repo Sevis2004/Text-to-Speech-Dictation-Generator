@@ -1,4 +1,4 @@
-\# Text-to-Speech Dictation Generator
+\# Text-to-Speech-Dictation-Generator
 
 
 
@@ -42,6 +42,15 @@ It was designed as an automated pipeline to convert structured text into ready-t
 
 \- ffmpeg (audio processing)
 
+
+## Architecture 
+
+generate_dictations.ps1 — general script
+- `test_split.ps1 — test splitting sentenses (legacy vs improved)`
+- `index.template.html — template of start page (mp3 player`
+- `dictations.json — data`
+- `dictations.txt - texts for generate speech`
+- `two algoritm for split sentenses legacy an improved (used now)`
 
 
 \---
