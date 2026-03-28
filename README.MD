@@ -48,14 +48,14 @@ It was designed as an automated pipeline to convert structured text into ready-t
 
 
 
-\## Demo
+## Demo
 
-Example output:
+Live demo (recommended):
+https://website.yandexcloud.net/dictation-audio/
 
-\- Generated MP3 file (see repository)
-
-\- Example HTML playback page
-
+Example output files:
+- `output/osen_full.mp3`
+- `output/index.html`
 
 
 \---
