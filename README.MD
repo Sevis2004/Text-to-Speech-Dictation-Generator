@@ -32,20 +32,22 @@ It was designed as an automated pipeline to convert structured text into ready-t
 
 \---
 
+\---
 
-## Setup
+\## Setup
 
 This project requires API credentials for TTS and storage services.
 
 For security reasons, credentials are not included in the repository.
 
 To run the project:
-1. Create a TTS API account (e.g. Yandex SpeechKit)
-2. Add your API key to configuration
-3. Run the main script
+\1. Create a TTS API account (e.g. Yandex SpeechKit)
+\2. Add your API key to configuration
+\3. Run the main script
 
 Alternatively, see the live demo above for example output.
 
+\---
 
 \## Tech Stack
 
